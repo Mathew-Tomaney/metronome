@@ -1,7 +1,7 @@
-function IntervalSelector() {
-
+function IntervalSelector(props) {
     return(
-        <h1>range selector</h1>
+        <input onChange={props.handleIntervalChange} type="range" id="bpm" min="40" max="218"/>
     );
+    
 };
 export default IntervalSelector;
