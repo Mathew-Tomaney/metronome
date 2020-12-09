@@ -1,20 +1,23 @@
 import IntervalSelector from "../components/IntervalSelector.js"
 import SoundSelector from "../components/SoundSelector.js"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 function MetronomeContainer() {
 
-    const[time, setTime] = useState(1500);
     const[intervalId, setIntervalId] = useState(0);
     const[sound, setSound] = useState("");
-    const[bpmNow, setBpmNow] = useState(40);
+    const[bpm, setBpm] = useState(40);
+    const[isPlaying, setIsPlaying] = useState(false);
 
     
+    useEffect( () => {
+        if (!isPlaying) return;
+        stop();
+        start();
+    },[bpm])
+
     function handleIntervalChange(event){
-        const bpm = event.target.value;
-        const msec = 60000/bpm;
-        setTime(msec);
-        setBpmNow(bpm);
+        setBpm(event.target.value);
     };
 
     function beep() {
@@ -24,20 +27,27 @@ function MetronomeContainer() {
 
     
     function start() {
-        setIntervalId(setInterval(beep, time));
+        setIntervalId(setInterval(beep, 60000/bpm));
+        setIsPlaying(true);
     };
     
     function stop() {
         clearInterval(intervalId);
+        setIsPlaying(false);
     };
+
+    function handleStartStop() {
+        isPlaying ? stop(): start()
+    };
+
+
 
     return(
         <>
-            <p>{bpmNow}bpm</p>
+            <p>{bpm}bpm</p>
             <IntervalSelector handleIntervalChange={handleIntervalChange}/>
             <SoundSelector/>
-            <button onClick={start}>wow</button>
-            <button onClick={stop}>no wow</button>
+            <button onClick={handleStartStop}>wow</button>
         </>
     );
     
