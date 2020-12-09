@@ -27,8 +27,8 @@ function MetronomeContainer({sounds}) {
     function playSound() {
         const snd = new Audio(sound);  
         snd.play();
+        flashText();
     };
-
     
     function start() {
         setIntervalId(setInterval(playSound, 60000/bpm));
@@ -43,12 +43,15 @@ function MetronomeContainer({sounds}) {
     function handleStartStop() {
        isPlaying ? stop(): start()
     };
-
-
+    
+    function flashText() {
+        var oElem = document.getElementById('bpmColour');
+        oElem.style.color = oElem.style.color == 'red' ? 'blue' : 'red';
+    };
 
     return(
         <>
-            <p>{bpm}bpm</p>
+            <p id='bpmColour'>{bpm}bpm</p>
             <IntervalSelector handleIntervalChange={handleIntervalChange}/>
             <br/>
             <SoundSelector sounds={sounds} handleSoundChange={handleSoundChange}/>
