@@ -14,10 +14,10 @@ function MetronomeContainer({sounds}) {
         if (!isPlaying) return;
         stop();
         start();
-    },[bpm])
+    },[bpm, sound])
 
     function handleSoundChange(event){
-        stop();
+        // stop();
         setSound(event.target.value);
     };
 
@@ -46,8 +46,10 @@ function MetronomeContainer({sounds}) {
     };
     
     function flashText() {
+        if(sound) {
         var oElem = document.getElementById('bpmColour');
         oElem.style.color = oElem.style.color == 'red' ? 'blue' : 'red';
+        };
     };
 
     return(
