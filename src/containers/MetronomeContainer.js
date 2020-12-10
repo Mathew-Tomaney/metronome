@@ -17,6 +17,7 @@ function MetronomeContainer({sounds}) {
     },[bpm])
 
     function handleSoundChange(event){
+        stop();
         setSound(event.target.value);
     };
 
